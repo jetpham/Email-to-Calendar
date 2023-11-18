@@ -1,27 +1,23 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
-
 export default function Home() {
-  const { data: session } = useSession();
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100 text-gray-900">
-      {!session ? (
-        <div className="text-center">
-          <button onClick={() => signIn('google')}>Log in with Google</button>
-        </div>
-      ) : (
-        <div className="text-center p-6 bg-white rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold">
-            Welcome, {session.user.email}!
-          </h1>
-          <p>
-            You're now authenticated!
-          </p>
-          <button onClick={() => signOut()}>Log out</button>
+      <div className="text-center p-6 bg-white rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold">Welcome to the Website!</h1>
+        <p className="text-sm mt-2">
+          This site is currently under construction. Soon, it will automatically
+          convert emails into Google Calendar events using OpenAI's GPT-4.
+        </p>
 
-          {/* ...rest of your component */}
+        {/* Use the standard img tag for the website schematic */}
+        <div className="my-8">
+          <img
+            src="/schema.png" // Make sure the image is in the public folder
+            alt="Website Schematic"
+            width="700" // Specify the width
+            height="681" // Specify the height
+          />
         </div>
-      )}
+      </div>
     </main>
   );
 }

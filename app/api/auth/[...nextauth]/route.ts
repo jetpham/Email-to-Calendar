@@ -8,19 +8,28 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
             authorization: {
                 params: {
-                    scope: 'https://www.googleapis.com/auth/gmail.readonly',
+                    scope: 'openid email profile https://www.googleapis.com/auth/gmail.readonly',
                         // Add other scopes if necessary
                 },
             },
         }),
     ],
     callbacks: {
+        async jwt({ token, user, account }) {
+            // Persist the OAuth access_token to the token right after signin
+
+            if (account) {
+                token.id_token = account.id_token;
+            }
+            return token;
+        },
         async session({ session, token }) {
-            session.accessToken = token.accessToken;
+            // Send properties to the client, like an access_token from a provider.
+            session.id_token = token.id_token;
             return session;
         },
-        // Add other callbacks as needed
     },
+    debug: true,
 });
 
 export { handler as GET, handler as POST };
